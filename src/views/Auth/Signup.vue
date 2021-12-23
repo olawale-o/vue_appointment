@@ -1,9 +1,9 @@
 <template>
   <div className="login__container">
-    <div className="form">
+    <div className="auth__form">
       <form>
         <h3>Book an appointment</h3>
-        <div className={style.field}>
+        <div className="field">
           <input
             type="text"
             placeholder="Full name"
@@ -11,7 +11,7 @@
             required
           />
         </div>
-        <div className={style.field}>
+        <div className="field">
           <input
             type="text"
             placeholder="Email"
@@ -19,7 +19,7 @@
             required
           />
         </div>
-        <div className={style.field}>
+        <div className="field">
           <input
             type="password"
             placeholder="Password"
@@ -27,7 +27,7 @@
             required
           />
         </div>
-        <div className={style.field}>
+        <div className="field">
           <input
             type="password"
             placeholder="Confirm Password"
@@ -36,9 +36,9 @@
           />
         </div>
         <div className="actions">
-          <input type="submit" value="Create" className="btn auth__btn" />}
+          <input type="submit" value="Create" className="btn auth-btn" />}
         </div>
-        <a href="/login" className="link">Already have an account?</a>
+        <router-link to="/login" className="link">Already have an account?</router-link>
       </form>
     </div>
   </div>
@@ -46,10 +46,8 @@
 
 <script>
 export default {
-
+  name: 'Signup',
 }
 </script>
 
-<style>
-
-</style>
+<style scoped src="../../assets/styles/Auth.css"></style>

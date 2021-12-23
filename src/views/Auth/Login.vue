@@ -22,9 +22,7 @@
         <div className="actions">
           <input type="submit" value="Login" className="btn auth-btn" />}
         </div>
-        <a to="/register" className=link>
-          Don't have an account?
-        </a>
+        <router-link to="/register" className="link">Don't have an account?</router-link>
       </form>
     </div>
   </div>
