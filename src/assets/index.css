@@ -1,0 +1,146 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;1,100&display=swap');
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  font-size: 10px;
+}
+
+body {
+  font-size: 62.5%;
+  font-family: 'Poppins', sans-serif;
+}
+
+::placeholder {
+  color: #ccc;
+}
+
+li {
+  list-style: none;
+}
+
+a {
+  text-decoration: none;
+}
+
+img {
+  border-radius: 50%;
+}
+
+select {
+  width: 100%;
+  padding: 1rem 0.8rem;
+  outline: none;
+  border-radius: 5px;
+  font-size: 1.8rem;
+  color: #ccc;
+}
+
+.home__header {
+  margin-bottom: 2rem;
+  text-align: center;
+}
+
+.heading1 {
+  font-size: 3rem;
+}
+
+.heading5 {
+  font-size: 1.5rem;
+  color: #ccc;
+}
+
+.mb-2 {
+  margin-bottom: 4rem;
+}
+
+.field {
+  width: 100%;
+  margin-bottom: 2rem;
+}
+  
+.input {
+  width: 100%;
+  padding: 1rem 0.8rem;
+  outline: none;
+  border: none;
+  border-radius: 5px;
+  font-size: 1.8rem;
+  letter-spacing: 0.5px;
+}
+  
+.textarea {
+  padding: 1rem 0.8rem;
+  outline: none;
+  border-radius: 5px;
+  letter-spacing: 0.5px;
+  font-size: 1.8rem;
+}
+
+.form {
+  width: 50%;
+  margin: 0 auto;
+}
+  
+.form form {
+  width: 80%;
+}
+  
+.actions {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+  
+.btn {
+  font-size: 1.5rem;
+  border: none;
+  cursor: pointer;
+  font-weight: bold;
+  width: 100%;
+  padding: 1rem 0.8rem;
+  outline: none;
+}
+  
+.auth-btn {
+  background: #2f007b;
+  border-color: #2f007b;
+  border-radius: 10px;
+  color: #fff;
+}
+
+.form__submission-indicator {
+  border: 1px solid #eee;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  border-bottom: 2px solid #1f250a;
+  animation: loading 1s linear infinite;
+}
+
+.loading__indicator {
+  border: 1px solid #eee;
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  border-bottom: 2px solid #97bf0f;
+  animation: loading 1s linear infinite;
+  position: absolute;
+  left: 45%;
+  top: 50%;
+  transform: translate(-45%, -50%);
+}
+
+@keyframes loading {
+  0% {
+    transform: rotate(0deg);
+  }
+
+  100% {
+    transform: rotate(360deg);
+  }
+}
