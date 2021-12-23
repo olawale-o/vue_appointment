@@ -1,5 +1,4 @@
 import { mutateAuth } from './mutation_creators';
-import { setLoading } from '../root';
 
 const intialState = () => ({
   user: {},
@@ -14,7 +13,7 @@ const authModule = {
     },
   },
   actions: {
-    authenticate({commit, dispatch}, {credentials}) {
+    authenticate({commit}, {credentials}) {
       commit(mutateAuth(credentials));
     },
   },
