@@ -3,7 +3,7 @@ import { getStorage, setStorage } from '../scripts/storage';
 import BASE_URI from '../constants/url';
 
 export const loginService = async (credentials) => {
-  const response = await post(`${BASE_URI}v1//users/login`, { credentials });
+  const response = await post(`${BASE_URI}v1/users/login`, { credentials });
   setStorage(response.headers.get('Authorization').split(' ')[1], 'token');
   return response.json();
 };
