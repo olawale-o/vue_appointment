@@ -34,14 +34,14 @@
 <script>
 import { reactive, computed } from 'vue';
 import { useStore } from 'vuex';
-import { actionAuth } from '../../redux/auth/action_creators';
+import { actionLogin} from '../../redux/auth/action_creators';
 export default {
   name: 'Login',
   setup() {
     const user = reactive({email: '', password: '',});
     const store = useStore();
     const onSubmit = () => {
-      store.dispatch(actionAuth({user,}));
+      store.dispatch(actionLogin({user,}));
     };
 
     return {
