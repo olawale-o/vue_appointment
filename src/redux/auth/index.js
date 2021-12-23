@@ -1,6 +1,6 @@
 import { mutateAuth } from './mutation_creators';
 import { setLoading, setError } from '../root';
-import { loginService } from '../../services';
+import { loginService, registerService } from '../../services';
 
 const intialState = () => ({
   user: {},
@@ -15,12 +15,22 @@ const authModule = {
     },
   },
   actions: {
-    async authenticate({commit, dispatch}, {credentials}) {
+    async login({commit, dispatch}, {credentials}) {
       dispatch(setLoading(), { root: true });
       try {
           const response = await loginService(credentials);
-          console.log(response);
-          commit(mutateAuth(response.data));
+          commit(mutateAuth(response));
+          dispatch(setLoading(), { root: true });
+        } catch (error) {
+        dispatch(setError(error.message), { root: true });
+        dispatch(setLoading(), { root: true });
+      }
+    },
+    async register({commit, dispatch}, {credentials}) {
+      dispatch(setLoading(), { root: true });
+      try {
+          const response = await registerService(credentials);
+          commit(mutateAuth(response));
           dispatch(setLoading(), { root: true });
         } catch (error) {
         dispatch(setError(error.message), { root: true });
