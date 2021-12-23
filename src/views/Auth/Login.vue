@@ -1,13 +1,14 @@
 <template>
   <div className="login__container">
     <div className="auth__form">
-      <form>
+      <form @submit.prevent="onSubmit">
         <h3>Book an appointment</h3>
         <div className="field">
           <input
             type="text"
             placeholder="Email"
             className="input"
+            v-model="user.email"
             required
          />
         </div>
@@ -16,11 +17,13 @@
             type="password"
             placeholder="Password"
             className="input"
+            v-model="user.password"
             required
           />
         </div>
         <div className="actions">
-          <input type="submit" value="Login" className="btn auth-btn" />}
+          <div v-if="loading" className="form__submission-indicator" />
+          <input v-else type="submit" value="Login" className="btn auth-btn" />
         </div>
         <router-link to="/register" className="link">Don't have an account?</router-link>
       </form>
@@ -29,8 +32,23 @@
 </template>
 
 <script>
+import { reactive, computed } from 'vue';
+import { useStore } from 'vuex';
+import { actionAuth } from '../../redux/auth/action_creators';
 export default {
   name: 'Login',
+  setup() {
+    const user = reactive({email: '', password: '',});
+    const store = useStore();
+    const onSubmit = () => {
+      store.dispatch(actionAuth({user,}));
+    };
+
+    return {
+      user, onSubmit,
+      loading: computed(() => store.getters.loading),
+    }
+  }
 }
 </script>
 
