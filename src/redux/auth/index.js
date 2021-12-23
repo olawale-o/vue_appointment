@@ -16,7 +16,6 @@ const authModule = {
   actions: {
     authenticate({commit, dispatch}, {credentials}) {
       commit(mutateAuth(credentials));
-      dispatch(setLoading(), { root: true });
     },
   },
   mutations: {
