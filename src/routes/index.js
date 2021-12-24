@@ -3,14 +3,28 @@ import { createRouter, createWebHistory } from 'vue-router';
 const Login = () => import('../views/Auth/Login.vue');
 const Register = () => import('../views/Auth/Signup.vue');
 const NotFound = () => import('../views/NotFound');
-const HelloWorld = () => import('../views/HelloWorld.vue');
+const Private = () => import('../views/Private');
+const RemoveDoctor = () => import('../views/Doctor/All.vue');
+const NewDoctor = () => import('../views/Doctor/New.vue');
 
 
 const routes = [
   {
     path: '/',
-    name: 'HelloWorld',
-    component: HelloWorld,
+    name: 'Prviate',
+    component: Private,
+    children: [
+      {
+        path: '/doctor/all',
+        name: 'RemoveDoctor',
+        component: RemoveDoctor,
+      },
+      {
+        path: '/doctor/new',
+        name: 'NewDoctor',
+        component: NewDoctor,
+      },
+    ],
   },
   {
     path: '/login',
@@ -30,6 +44,7 @@ const routes = [
 ];
 
 const router = createRouter({
+  linkExactActiveClass: 'exact-active',
   history: createWebHistory(process.env.BASE_URL),
   routes,
 });
