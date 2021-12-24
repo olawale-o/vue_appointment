@@ -82,7 +82,7 @@
   cursor: pointer;
 }
 
-.nav__list a.router-link-exact-active {
+.nav__list a.exact-active {
   background: #97bf0f;
 }
 
