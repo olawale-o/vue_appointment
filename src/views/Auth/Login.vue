@@ -1,31 +1,31 @@
 <template>
-  <div className="login__container">
-    <div className="auth__form">
+  <div class="login__container">
+    <div class="auth__form">
       <form @submit.prevent="onSubmit">
         <h3>Book an appointment</h3>
-        <div className="field">
+        <div class="field">
           <input
             type="text"
             placeholder="Email"
-            className="input"
+            class="input"
             v-model="user.email"
             required
          />
         </div>
-        <div className="field">
+        <div class="field">
           <input
             type="password"
             placeholder="Password"
-            className="input"
+            class="input"
             v-model="user.password"
             required
           />
         </div>
-        <div className="actions">
-          <div v-if="loading" className="form__submission-indicator" />
-          <input v-else type="submit" value="Login" className="btn auth-btn" />
+        <div class="actions">
+          <div v-if="loading" class="form__submission-indicator" />
+          <input v-else type="submit" value="Login" class="btn auth-btn" />
         </div>
-        <router-link to="/register" className="link">Don't have an account?</router-link>
+        <router-link to="/register" class="link">Don't have an account?</router-link>
       </form>
     </div>
   </div>
