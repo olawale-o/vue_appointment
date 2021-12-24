@@ -1,0 +1,137 @@
+.navigation {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 900;
+  transform: translateX(-220px);
+  transition: transform 0.3s linear;
+  min-height: 700px;
+  border-right: 1px solid #e6e6e6;
+}
+  
+.show__header {
+  width: 280px;
+  transform: translateX(0);
+}
+  
+.menu {
+  background: none;
+  outline: none;
+  border: none;
+  font-size: 3rem;
+  position: absolute;
+  left: 10px;
+  top: 10px;
+  z-index: 1000;
+  cursor: pointer;
+}
+  
+.nav {
+  margin-top: 1rem;
+  background: #fff;
+  padding-left: 2rem;
+  padding-top: 3rem;
+  min-height: inherit;
+  position: relative;
+}
+  
+.logo {
+  margin-bottom: 4rem;
+  display: flex;
+  justify-content: space-between;
+  transform: rotate(-10deg);
+}
+  
+.logo__link {
+  font-size: 2rem;
+  color: #000;
+  font-style: italic;
+}
+ 
+.nav__list {
+  display: flex;
+  flex-direction: column;
+}
+  
+.nav__item {
+  margin-bottom: 1rem;
+}
+  
+.nav__link {
+  font-size: 1rem;
+  text-decoration: none;
+  color: #454545;
+  text-transform: uppercase;
+  width: calc(100% - 20px);
+  display: block;
+  padding: 1.2rem;
+  margin-left: 20px;
+  font-weight: bolder;
+}
+  
+.logout-btn {
+  background: #003f14;
+  outline: none;
+  border: none;
+  width: calc(100% - 20px);
+  display: block;
+  padding: 1.2rem;
+  margin-left: 20px;
+  text-align: left;
+  color: #fff;
+  cursor: pointer;
+}
+
+.nav__list a.router-link-exact-active {
+  background: #97bf0f;
+}
+
+.nav__link:hover {
+  background: #97bf0f;
+  color: #fff;
+}
+  
+.footer__nav {
+  position: absolute;
+  bottom: 120px;
+  left: 20px;
+  right: 0;
+}
+  
+.socials {
+  display: flex;
+}
+  
+.social__item:not(:last-child) {
+  margin-right: 1rem;
+}
+  
+.social__link {
+  font-size: 3rem;
+  color: #000;
+}
+  
+.copyright {
+  font-size: 1.8rem;
+}
+  
+@media screen and (min-width: 992px) {
+  .navigation {
+    width: 25vw;
+    transform: translateX(0);
+  }
+
+  .menu {
+    display: none;
+    visibility: hidden;
+  }
+
+  .logo__link {
+    font-size: 2rem;
+  }
+
+  .nav__link {
+    font-size: 1.4rem;
+  }
+}
+  
