@@ -1,7 +1,9 @@
 import store from '../redux';
+import { actionDoctors } from '../redux/doctor/action_creators';
+const CURRENT_USER = 'auth/currentUser';
 
-const requiresAuth = (to, from, next) => {
-  const currentUser = store.getters['auth/currentUser'];
+export const requiresAuth = (to, from, next) => {
+  const currentUser = store.getters[CURRENT_USER];
   if (!currentUser) {
     next({
       path: '/login',
@@ -12,4 +14,7 @@ const requiresAuth = (to, from, next) => {
   }
 };
 
-export default requiresAuth;
+export const beforeHome = (to, from, next) => {
+  store.dispatch(actionDoctors());
+  next();
+};
