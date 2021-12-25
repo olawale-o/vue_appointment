@@ -31,7 +31,6 @@ const rootStore = {
     loading: (state) => {
       const { loading } = state;
       state.loading = !loading;
-      console.log('loading', state);
       return state;
     },
     error: (state, {credentials}) => state.error = credentials,
