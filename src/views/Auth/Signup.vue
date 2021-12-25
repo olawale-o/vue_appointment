@@ -52,14 +52,16 @@
 <script>
 import { reactive, computed } from 'vue';
 import { useStore } from 'vuex';
+import { useRouter } from 'vue-router';
 import { actionRegister } from '../../redux/auth/action_creators';
 export default {
   name: 'Signup',
   setup() {
+    const router = useRouter();
     const user = reactive({name: '', email: '', password: '', password_confirmation: '',});
     const store = useStore();
     const onSubmit = () => {
-      store.dispatch(actionRegister({user,}));
+      store.dispatch(actionRegister({user,}, router.push));
     };
 
     return {

@@ -15,23 +15,25 @@ const authModule = {
     },
   },
   actions: {
-    async login({commit, dispatch}, {credentials}) {
+    async login({commit, dispatch}, {credentials, cb}) {
       dispatch(setLoading(), { root: true });
       try {
           const response = await loginService(credentials);
           commit(mutateAuth(response));
           dispatch(setLoading(), { root: true });
+          cb('/');
         } catch (error) {
         dispatch(setError(error.message), { root: true });
         dispatch(setLoading(), { root: true });
       }
     },
-    async register({commit, dispatch}, {credentials}) {
+    async register({commit, dispatch}, {credentials, cb}) {
       dispatch(setLoading(), { root: true });
       try {
           const response = await registerService(credentials);
           commit(mutateAuth(response));
           dispatch(setLoading(), { root: true });
+          cb('/');
         } catch (error) {
         dispatch(setError(error.message), { root: true });
         dispatch(setLoading(), { root: true });
