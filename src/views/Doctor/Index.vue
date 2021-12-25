@@ -1,5 +1,5 @@
 <template>
-  <div className="doctor__list" style="overflowX: 'hidden', paddingTop: '6rem'">
+  <div className="doctor__list" style="overflow-x: 'hidden', padding-top: '6rem'">
     <div className="loading__indicator" v-if="loading" />
     <div v-if="doctors.length > 0">
       <div className="home__header">
@@ -8,7 +8,7 @@
       </div>
       <CarouselSlider :doctors="doctors" />
     </div>
-    <div v-if="doctors.length === 0" style="font-size: '3rem', textAlign: 'center'">No doctor on the list</div>
+    <div v-if="doctors.length === 0" style="font-size: '3rem', text-align: 'center'">No doctor on the list</div>
   </div>
 </template>
 

@@ -1,7 +1,7 @@
 <template>
   <div class="doctor__new">
     <div class="doctor__form">
-      <form onSubmit={handleSubmit}>
+      <form @submit.prevent="onSubmit">
         <h1 class="heading1 mb-2" style="color: '#fff'">ADD A NEW DOCTOR</h1>
         <div class="field">
           <input
@@ -13,8 +13,8 @@
           />
         </div>
         <div class="field">
-          <select required>
-            <option>Select a city</option>
+          <select required v-model="doctor.city">
+            <option disabled value="" selected>Please select one</option>
             <option value="lagos">Lagos</option>
             <option value="toronto">Toronto</option>
           </select>
@@ -42,7 +42,10 @@
           <input
             type="file"
             class="input"
+            accept="image/*"
             required
+            ref="picture"
+            @change="onFileUpload"
           />
         </div>
         <div class="actions">
@@ -55,22 +58,37 @@
 </template>
 
 <script>
-  import { computed, reactive } from 'vue';
+  import { computed, ref, reactive } from 'vue';
   import { useStore } from 'vuex';
+  import { useRouter } from 'vue-router';
+  import { actionDoctorAdd } from '@/redux/doctor/action_creators';
   export default {
     name: 'NewDoctor',
     setup() {
-      const store = useStore();
+      const picture = ref(null);
       const doctor = reactive({
         fullname: '',
+        city: 'Abuja',
         specialty: '',
         description: '',
-        picture: '',
       });
-
+      const store = useStore();
+      const router = useRouter();
+      const onSubmit = () => {
+        const formData = new FormData();
+        formData.append('doctor[fullname]', doctor.fullname);
+        formData.append('doctor[city]', doctor.city);
+        formData.append('doctor[specialty]', doctor.specialty);
+        formData.append('doctor[picture]', picture.value);
+        formData.append('doctor[description]', doctor.description);
+        store.dispatch(actionDoctorAdd(formData, router.push));
+      };
+      const onFileUpload = (e) => {
+        picture.value = e.target.files[0];
+      };
       return { 
-        doctor,
         loading: computed(() => store.getters.loading),
+        onSubmit, picture, onFileUpload, doctor,
       };
     },
   }
