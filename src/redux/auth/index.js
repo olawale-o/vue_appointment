@@ -3,7 +3,7 @@ import { setLoading, setError } from '../root';
 import { loginService, registerService } from '../../services';
 
 const intialState = () => ({
-  user: {},
+  user: null,
 });
 
 const authModule = {
