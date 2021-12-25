@@ -1,9 +1,10 @@
-import { mutateDoctors } from './mutation_creators';
+import { mutateDoctorAdd, mutateDoctors } from './mutation_creators';
 import { setLoading, setError } from '../root';
-import { getDoctorsService } from '../../services';
+import { addDoctorService, getDoctorsService } from '../../services';
 
 const intialState = () => ({
   doctors: [],
+  doctor: null,
 });
 
 const doctorModule = {
@@ -12,6 +13,9 @@ const doctorModule = {
   getters: {
     doctors(state) {
       return state.doctors;
+    },
+    doctor(state) {
+      return state.doctor;
     },
   },
   actions: {
@@ -26,9 +30,27 @@ const doctorModule = {
         dispatch(setLoading(), { root: true });
       }
     },
+    async add({commit, dispatch}, {credentials, cb}) {
+      dispatch(setLoading(), { root: true });
+      try {
+          const response = await addDoctorService(credentials);
+          const doctor = response.data.doctor;
+          commit(mutateDoctorAdd(doctor));
+          dispatch(setLoading(), { root: true });
+          cb(`/doctor/${doctor.id}`)
+        } catch (error) {
+        dispatch(setError(error.message), { root: true });
+        dispatch(setLoading(), { root: true });
+      }
+    },
   },
   mutations: {
     all: (state, {credentials}) => state.doctors = credentials,
+    add: (state, {credentials}) => {
+      state.doctor = credentials;
+      state.doctors = state.doctors.concat(credentials);
+      return state;
+    },
   },
 };
 
