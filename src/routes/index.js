@@ -8,6 +8,7 @@ const Private = () => import('../views/Private');
 const RemoveDoctor = () => import('../views/Doctor/All.vue');
 const NewDoctor = () => import('../views/Doctor/New.vue');
 const DoctorIndex = () => import('../views/Doctor/Index.vue');
+const DoctorDetail = () => import('../views/Doctor/Detail.vue');
 
 
 const routes = [
@@ -34,6 +35,11 @@ const routes = [
         path: 'doctor/new',
         name: 'NewDoctor',
         component: NewDoctor,
+      },
+      {
+        path: 'doctor/:id',
+        name: 'DoctorDetail',
+        component: DoctorDetail,
       },
     ],
   },
