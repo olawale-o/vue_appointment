@@ -14,7 +14,7 @@ export const requiresAuth = (to, from, next) => {
   }
 };
 
-export const beforeHome = (to, from, next) => {
+export const requiresDoctors = (to, from, next) => {
   store.dispatch(actionDoctors());
   next();
 };
