@@ -80,7 +80,6 @@
         formData.append('doctor[city]', doctor.city);
         formData.append('doctor[specialty]', doctor.specialty);
         formData.append('doctor[picture]', picture.value);
-        formData.append('doctor[description]', doctor.description);
         store.dispatch(actionDoctorAdd(formData, router.push));
       };
       const onFileUpload = (e) => {

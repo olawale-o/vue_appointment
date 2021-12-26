@@ -1,6 +1,6 @@
-import { mutateDoctorAdd, mutateDoctors } from './mutation_creators';
+import { mutateDoctorAdd, mutateDoctors, mutateDoctorDelete } from './mutation_creators';
 import { setLoading, setError } from '../root';
-import { addDoctorService, getDoctorsService } from '../../services';
+import { addDoctorService, getDoctorsService, deleteDoctorService } from '../../services';
 
 const intialState = () => ({
   doctors: [],
@@ -43,12 +43,31 @@ const doctorModule = {
         dispatch(setLoading(), { root: true });
       }
     },
+    async delete({commit, dispatch}, {credentials}) {
+      dispatch(setLoading(), { root: true });
+      try {
+          await deleteDoctorService(credentials);
+          commit(mutateDoctorDelete(credentials));
+          dispatch(setLoading(), { root: true });
+        } catch (error) {
+        dispatch(setError(error.message), { root: true });
+        dispatch(setLoading(), { root: true });
+      }
+    },
   },
   mutations: {
     all: (state, {credentials}) => state.doctors = credentials,
     add: (state, {credentials}) => {
       state.doctor = credentials;
       state.doctors = state.doctors.concat(credentials);
+      return state;
+    },
+    delete: (state, {credentials}) => {
+      const { doctor, doctors } = state;
+      if (doctor && doctor.id === credentials.id) {
+        state.doctor = null;
+      }
+      state.doctors = doctors.filter(doctor => doctor.id !== credentials);
       return state;
     },
   },

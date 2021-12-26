@@ -20,6 +20,8 @@
       <button
         type="button"
         class="btn"
+        @click="onDeleteDoctor(doctor.id)"
+        :disabled="doctor.user_id !== currentUser.id"
       >
         <i class="bx bx-trash-alt" />
       </button>
@@ -29,7 +31,10 @@
 </template>
 
 <script>
+  import { computed } from 'vue';
+  import { useStore } from 'vuex';
   import BASE_URI from '@/constants/url';
+  import { actionDoctorDelete } from '@/redux/doctor/action_creators';
   export default {
     name: 'DoctorItemCard',
     props: {
@@ -39,7 +44,14 @@
       },
     },
     setup() {
-      return { BASE_URI };
+      const store = useStore();
+      const onDeleteDoctor = (id) => {
+        store.dispatch(actionDoctorDelete(id));
+      };
+      return {
+        BASE_URI, onDeleteDoctor,
+        currentUser: computed(() => store.getters['auth/currentUser']),
+      };
     },
   }
 </script>
