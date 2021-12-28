@@ -5,7 +5,7 @@
     </div>
     <h6 class="card__name">{{`Dr. ${doctor.fullname}`}}</h6>
     <p class="card__description">{{doctor.specialty}}</p>
-    <router-link to="/" class="card__link">See details</router-link>
+    <router-link :to="`/doctor/${doctor.id}`" class="card__link">See details</router-link>
   </div>
 </template>
 
