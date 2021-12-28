@@ -1,12 +1,12 @@
 <template>
-  <div className="Appointments" style="background: 'whitesmoke', min-height: '700px', padding-top: '10rem'">
-    <div className="table__container">
-      <div className="loading__indicator" v-if="loading" />
+  <div class="appointments">
+    <div class="table__container">
+      <div class="loading__indicator" v-if="loading" />
       <template v-if="doctors.length > 0">
-        <h1 className="heading1">My Doctors</h1>
+        <h1 class="heading1">My Doctors</h1>
         <DoctorList :doctors="doctors" />
       </template>
-      <div style="font-size: '3rem', text-align: 'center'" v-if="doctors.length === 0">You dont have doctors</div>
+      <div class="empty" v-if="doctors.length === 0">You dont have doctors</div>
     </div>
   </div>
 </template>
