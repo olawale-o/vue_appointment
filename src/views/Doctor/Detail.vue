@@ -1,34 +1,34 @@
 <template>
-  <div className="details" style="padding-top: '6rem'">
-    <div className="loadding__indicator" v-if="loading" />
-    <div className="details__container" v-else>
-      <router-link to="/" className="back__btn"><i className="bx bx-arrow-back" /></router-link>
-      <div className="large__picture">
+  <div class="details" style="padding-top: '6rem'">
+    <div class="loadding__indicator" v-if="loading" />
+    <div class="details__container" v-else>
+      <router-link to="/" class="back__btn"><i class="bx bx-arrow-back" /></router-link>
+      <div class="large__picture">
         <img :src="`${BASE_URI}${doc.picture}`" alt="doc" />
       </div>
-      <div className="details__info">
-        <h2 className="detail__info-name">{{`Dr. ${doc.fullname}`}}</h2>
-        <div className="specialty__div">
-          <p className="speciality__banner">Specialty</p>
-          <h6 className="specialty__title">{{doc.specialty}}</h6>
+      <div class="details__info">
+        <h2 class="detail__info-name">{{`Dr. ${doc.fullname}`}}</h2>
+        <div class="specialty__div">
+          <p class="speciality__banner">Specialty</p>
+          <h6 class="specialty__title">{{doc.specialty}}</h6>
         </div>
-        <div className="city__div">
-          <p className="city__banner">City</p>
-          <h6 className="city__title">[{doc.city}]</h6>
+        <div class="city__div">
+          <p class="city__banner">City</p>
+          <h6 class="city__title">[{doc.city}]</h6>
         </div>
-        <div className="fee__container">
-          <span className="fee">$10</span>
+        <div class="fee__container">
+          <span class="fee">$10</span>
             per hour
         </div>
-        <div className="note">
-          <p className="note__description">
+        <div class="note">
+          <p class="note__description">
             All of our docs have an hourly rate of $10 according to the
             regulations imposed by our platform. To read more about it,
             please contact our staff.
           </p>
         </div>
-        <div className="btn__container">
-          <router-link to="/appointment" className="btn btn__large">Book an appointment</router-link>
+        <div class="btn__container">
+          <router-link to="/appointment" class="btn btn__large">Book an appointment</router-link>
         </div>
       </div>
     </div>
