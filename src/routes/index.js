@@ -1,6 +1,6 @@
 import { createRouter, createWebHistory } from 'vue-router';
 
-import {requiresAuth, requiresDoctors} from '../guards/private';
+import {requiresAuth, requiresDoctors, requiresDoctor} from '../guards/private';
 const Login = () => import('../views/Auth/Login.vue');
 const Register = () => import('../views/Auth/Signup.vue');
 const NotFound = () => import('../views/NotFound');
@@ -40,6 +40,8 @@ const routes = [
       {
         path: 'doctor/:id',
         name: 'DoctorDetail',
+        props: true,
+        beforeEnter: requiresDoctor,
         component: DoctorDetail,
       },
     ],
