@@ -1,6 +1,6 @@
-import { mutateDoctorAdd, mutateDoctors, mutateDoctorDelete } from './mutation_creators';
+import { mutateDoctorAdd, mutateDoctors, mutateDoctorDelete, mutateDoctorSingle } from './mutation_creators';
 import { setLoading, setError } from '../root';
-import { addDoctorService, getDoctorsService, deleteDoctorService } from '../../services';
+import { addDoctorService, getDoctorsService, deleteDoctorService, getDoctorService } from '../../services';
 
 const intialState = () => ({
   doctors: [],
@@ -13,6 +13,9 @@ const doctorModule = {
   getters: {
     doctors(state) {
       return state.doctors;
+    },
+    getDoctor: (state) => (id) => {
+      return state.doctors.find(doctor => doctor.id === id);
     },
     doctor(state) {
       return state.doctor;
@@ -54,6 +57,24 @@ const doctorModule = {
         dispatch(setLoading(), { root: true });
       }
     },
+    single({commit, getters, dispatch}, {credentials}) {
+      const doctor = getters.getDoctor(credentials);
+      if (doctor) {
+        commit(mutateDoctorSingle(doctor));
+        return doctor;
+      }
+      dispatch(setLoading(), { root: true });
+      return getDoctorService(credentials)
+        .then(response => {
+          commit(mutateDoctorSingle(response.data.doctor));
+          dispatch(setLoading(), { root: true });
+          return response.data.doctor;
+        })
+        .catch(error => {
+          dispatch(setError(error.message), { root: true });
+          dispatch(setLoading(), { root: true });
+        });
+    },
   },
   mutations: {
     all: (state, {credentials}) => state.doctors = credentials,
@@ -70,6 +91,7 @@ const doctorModule = {
       state.doctors = doctors.filter(doctor => doctor.id !== credentials);
       return state;
     },
+    single: (state, {credentials}) => state.doctor = credentials,
   },
 };
 
