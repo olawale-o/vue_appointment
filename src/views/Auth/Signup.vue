@@ -1,49 +1,49 @@
 <template>
-  <div className="login__container">
-    <div className="auth__form">
+  <div class="login__container">
+    <div class="auth__form">
       <form @submit.prevent="onSubmit">
         <h3>Book an appointment</h3>
-        <div className="field">
+        <div class="field">
           <input
             type="text"
             placeholder="Full name"
-            className="input"
+            class="input"
             v-model="user.name"
             required
           />
         </div>
-        <div className="field">
+        <div class="field">
           <input
             type="text"
             placeholder="Email"
-            className="input"
+            class="input"
             v-model="user.email"
             required
           />
         </div>
-        <div className="field">
+        <div class="field">
           <input
             type="password"
             placeholder="Password"
-            className="input"
+            class="input"
             v-model="user.password"
             required
           />
         </div>
-        <div className="field">
+        <div class="field">
           <input
             type="password"
             placeholder="Confirm Password"
-            className="input"
+            class="input"
             v-model="user.password_confirmation"
             required
           />
         </div>
-        <div className="actions">
-          <div v-if="loading" className="form__submission-indicator" />
-          <input v-else type="submit" value="Login" className="btn auth-btn" />
+        <div class="actions">
+          <div v-if="loading" class="form__submission-indicator" />
+          <input v-else type="submit" value="Login" class="btn auth-btn" />
         </div>
-        <router-link to="/login" className="link">Already have an account?</router-link>
+        <router-link to="/login" class="link">Already have an account?</router-link>
       </form>
     </div>
   </div>
@@ -52,15 +52,16 @@
 <script>
 import { reactive, computed } from 'vue';
 import { useStore } from 'vuex';
+import { useRouter } from 'vue-router';
 import { actionRegister } from '../../redux/auth/action_creators';
 export default {
   name: 'Signup',
   setup() {
+    const router = useRouter();
     const user = reactive({name: '', email: '', password: '', password_confirmation: '',});
     const store = useStore();
     const onSubmit = () => {
-      console.log(user);
-      store.dispatch(actionRegister({user,}));
+      store.dispatch(actionRegister({user,}, router.push));
     };
 
     return {
