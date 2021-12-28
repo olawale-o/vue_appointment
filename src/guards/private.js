@@ -1,5 +1,6 @@
 import store from '../redux';
 import { actionDoctors, actionDoctorSingle } from '../redux/doctor/action_creators';
+import { actionAppointments } from '../redux/appointment/action_creators';
 const CURRENT_USER = 'auth/currentUser';
 
 export const requiresAuth = (to, from, next) => {
@@ -25,4 +26,9 @@ export const requiresDoctor = (to, from, next) => {
       to.params.doctor = doctor;
       next();
     });
+};
+
+export const requiresAppointment = (to, from, next) => {
+  store.dispatch(actionAppointments());
+  next();
 };
