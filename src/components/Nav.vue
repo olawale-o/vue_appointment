@@ -2,7 +2,7 @@
   <button
     type="button"
     class="menu"
-    onClick={toggleNav}
+    @click="toggleNav"
   >
     <i class="bx bx-x" v-if="isOpen" />
     <i class="bx bx-menu" v-else />
@@ -75,7 +75,11 @@
     setup() {
       const isOpen = ref(false);
 
-      return { isOpen };
+      const toggleNav = () => {
+        isOpen.value = !isOpen.value;
+      };
+
+      return { isOpen, toggleNav, };
     },
   }
 </script>
