@@ -1,4 +1,4 @@
-import { mutateAppointmentAdd, mutateAppointmentDelete, mutateAppointments } from './mutation_creators';
+import { mutateAppointmentAdd, mutateAppointmentDelete, mutateAppointments, mutateAppointmentReset } from './mutation_creators';
 import { setLoading, setError } from '../root';
 import { getAppointmentsService, createAppointmentService, deleteAppointmentService } from '../../services';
 
@@ -48,6 +48,9 @@ const appointmentModule = {
         dispatch(setLoading(), { root: true });
       }
     },
+    reset({commit}) {
+      commit(mutateAppointmentReset());
+    },
   },
   mutations: {
     all: (state, {credentials}) => state.appointments = credentials,
@@ -62,6 +65,10 @@ const appointmentModule = {
         state.appointment = null;
       }
       state.appointments = appointments.filter(appointment => appointment.id !== credentials);
+      return state;
+    },
+    reset: (state) => {
+      state = intialState();
       return state;
     },
   },

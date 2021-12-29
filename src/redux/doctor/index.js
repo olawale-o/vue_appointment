@@ -1,4 +1,4 @@
-import { mutateDoctorAdd, mutateDoctors, mutateDoctorDelete, mutateDoctorSingle } from './mutation_creators';
+import { mutateDoctorAdd, mutateDoctors, mutateDoctorDelete, mutateDoctorSingle, mutateDoctorReset } from './mutation_creators';
 import { setLoading, setError } from '../root';
 import { addDoctorService, getDoctorsService, deleteDoctorService, getDoctorService } from '../../services';
 
@@ -75,6 +75,9 @@ const doctorModule = {
           dispatch(setLoading(), { root: true });
         });
     },
+    reset({commit}) {
+      commit(mutateDoctorReset());
+    },
   },
   mutations: {
     all: (state, {credentials}) => state.doctors = credentials,
@@ -92,6 +95,10 @@ const doctorModule = {
       return state;
     },
     single: (state, {credentials}) => state.doctor = credentials,
+    reset: (state) => {
+      state = intialState();
+      return state;
+    },
   },
 };
 
