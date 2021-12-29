@@ -7,7 +7,7 @@
           Cancel
         </button>
         <div class="form__submission-indicator" v-if="loading" />
-        <button type="button" class="confirm" onClick={onConfirm} v-else>Logout</button>
+        <button type="button" class="confirm" @click="confirm" v-else>Logout</button>
       </div>
     </div>
   </div>
@@ -24,13 +24,16 @@
         default: false,
       }
     },
-    emits: ['close'],
+    emits: ['close', 'confirm'],
     setup(props, { emit }) {
       const store = useStore();
       return {
         loading: computed(() => store.getters.loading),
         close: () => {
           emit('close');
+        },
+        confirm: () => {
+          emit('confirm');
         },
       }
     },

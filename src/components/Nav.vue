@@ -66,20 +66,25 @@
       </div>
     </nav>
     <teleport to="#modals">
-      <LogoutModal v-if="open" @close="onClose" />
+      <LogoutModal v-if="open" @close="onClose" @confirm="onConfirm" />
     </teleport>
   </div>
 </template>
 
 <script>
   import { ref } from 'vue';
+  import { useStore } from 'vuex';
+  import { useRouter } from 'vue-router';
   import LogoutModal from '@/components/LogoutModal.vue';
+  import { actionLogout } from '@/redux/auth/action_creators';
   export default {
     name: 'Nav',
     components: {
       LogoutModal,
     },
     setup() {
+      const store = useStore();
+      const router = useRouter();
       const isOpen = ref(false);
       const open = ref(false);
 
@@ -91,7 +96,18 @@
         open.value = false;
       };
 
-      return { isOpen, toggleNav, open, onClose };
+      const onConfirm = () => {
+        store.dispatch(actionLogout())
+        .then(() => {
+          open.value = false;
+          router.replace('login');
+        })
+        .catch(() => {
+          console.log('error');
+        });
+      };
+
+      return { isOpen, toggleNav, open, onClose, onConfirm};
     },
   }
 </script>
