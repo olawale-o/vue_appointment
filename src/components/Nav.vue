@@ -29,7 +29,7 @@
           <router-link to="/doctor/all" class="nav__link">DELETE A DOCTOR</router-link>
         </li>
         <li className="nav__item">
-          <button type="button" class="logout-btn" onClick={onOpen}>LOG OUT</button>
+          <button type="button" class="logout-btn" @click="open = !open">LOG OUT</button>
         </li>
       </ul>
       <div class="footer__nav">
@@ -65,21 +65,33 @@
         </p>
       </div>
     </nav>
+    <teleport to="#modals">
+      <LogoutModal v-if="open" @close="onClose" />
+    </teleport>
   </div>
 </template>
 
 <script>
   import { ref } from 'vue';
+  import LogoutModal from '@/components/LogoutModal.vue';
   export default {
     name: 'Nav',
+    components: {
+      LogoutModal,
+    },
     setup() {
       const isOpen = ref(false);
+      const open = ref(false);
 
       const toggleNav = () => {
         isOpen.value = !isOpen.value;
       };
 
-      return { isOpen, toggleNav, };
+      const onClose = () => {
+        open.value = false;
+      };
+
+      return { isOpen, toggleNav, open, onClose };
     },
   }
 </script>
