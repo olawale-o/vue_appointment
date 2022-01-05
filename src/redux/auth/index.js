@@ -25,7 +25,7 @@ const authModule = {
           dispatch(setLoading(), { root: true });
           cb('/');
         } catch (error) {
-        dispatch(setError(error.message), { root: true });
+        dispatch(setError(error.response.data.error), { root: true });
         dispatch(setLoading(), { root: true });
       }
     },
@@ -37,7 +37,7 @@ const authModule = {
           dispatch(setLoading(), { root: true });
           cb('/');
         } catch (error) {
-        dispatch(setError(error.message), { root: true });
+        dispatch(setError(error.response.data.errors), { root: true });
         dispatch(setLoading(), { root: true });
       }
     },

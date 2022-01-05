@@ -291,3 +291,10 @@ span i {
     width: 25%;
   }
 }
+
+.server-error {
+  color: red;
+  font-size: 2.5rem;
+  text-align: center;
+  margin-bottom: 1.5rem;
+}

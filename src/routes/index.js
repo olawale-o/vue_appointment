@@ -1,6 +1,6 @@
 import { createRouter, createWebHistory } from 'vue-router';
 
-import {requiresAuth, requiresDoctors, requiresDoctor, requiresAppointment} from '../guards/private';
+import {requiresAuth, requiresDoctors, requiresDoctor, requiresAppointment, requiresGuest} from '../guards/private';
 const Login = () => import('../views/Auth/Login.vue');
 const Register = () => import('../views/Auth/Signup.vue');
 const NotFound = () => import('../views/NotFound');
@@ -61,11 +61,13 @@ const routes = [
     path: '/login',
     name: 'Login',
     component: Login,
+    beforeEnter: requiresGuest,
   },
   {
     path: '/register',
     name: 'Signup',
     component: Register,
+    beforeEnter: requiresGuest,
   },
   {
     path: '/:pathMatch(.*)',
