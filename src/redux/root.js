@@ -1,7 +1,9 @@
 const LOADING = 'loading';
 const ERROR = 'error';
+const RESET = 'reset';
 export const setLoading = () => ({type: LOADING});
 export const setError = (credentials) => ({type: ERROR, credentials});
+export const reset = () => ({type: RESET});
 
 const initialState = () => ({
   loading: false,
@@ -25,7 +27,10 @@ const rootStore = {
     },
     error({commit}, {credentials}) {
       commit(setError(credentials));
-    }
+    },
+    reset({commit}) {
+      commit(reset());
+    },
   },
   mutations: {
     loading: (state) => {
@@ -34,6 +39,11 @@ const rootStore = {
       return state;
     },
     error: (state, {credentials}) => state.error = credentials,
+    reset: (state) => {
+      state.loading = false;
+      state.error = null;
+      return state;
+    },
   },
 };
 

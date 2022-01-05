@@ -1,33 +1,20 @@
-import { getStorage } from '../scripts/storage';
+import axios from 'axios';
+import BASE_URI from '../constants/url';
+
+const api = axios.create({
+  baseURL: BASE_URI
+});
+
 
 export const post = async (url, options = {}) => {
-  const { credentials = {}, token = '', picture = false } = options;
-  const headers = {
-    headers: {
-      ...(picture ? {} : { 'Content-type': 'application/json; Charset=UTF-8' }),
-      ...(token ? { Authorization: `Bearer ${token}` } : {}),
-    },
-  };
-  const response = await fetch(url, {
-    method: 'POST',
-    body: picture ? credentials : JSON.stringify(credentials),
-    ...headers,
-  });
-  if (response.status === 400 || response.status === 401) {
-    throw new Error('Please check your credentials');
-  }
+  const { credentials = {} } = options;
+  const response = await api.post(url, credentials);
   return response;
 };
 
+
 export const get = async (url) => {
-  const token = getStorage('token');
-  const headers = {
-    headers: {
-      'Content-type': 'application/json; Charset=UTF-8',
-      Authorization: `Bearer ${token}`,
-    },
-  };
-  const response = await fetch(url, headers);
+  const response = await api.get(url);
   if (response.status === 400 || response.status === 401) {
     throw new Error('Please check your credentials');
   }
@@ -35,18 +22,10 @@ export const get = async (url) => {
 };
 
 export const remove = async (url) => {
-  const token = getStorage('token');
-  const headers = {
-    headers: {
-      'Content-type': 'application/json; Charset=UTF-8',
-      Authorization: `Bearer ${token}`,
-    },
-  };
-  const response = await fetch(url, {
-    method: 'DELETE',
-    ...headers,
-  });
+  const response = await api.delete(url,);
   if (response.status === 400 || response.status === 401) {
     throw new Error('Please check your credentials');
   }
 };
+
+export default api;

@@ -3,6 +3,9 @@
     <div class="auth__form">
       <form @submit.prevent="onSubmit">
         <h3>Book an appointment</h3>
+        <ul v-for="(value, name) in error" :key="name">
+          <li class="server-error">{{name}} {{value[0]}}</li>
+        </ul>
         <div class="field">
           <input
             type="text"
@@ -67,6 +70,7 @@ export default {
     return {
       user, onSubmit,
       loading: computed(() => store.getters.loading),
+      error: computed(() => store.getters.error),
     }
   }
 }
