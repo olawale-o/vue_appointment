@@ -2,7 +2,7 @@
   <button
     type="button"
     class="menu"
-    onClick={toggleNav}
+    @click="toggleNav"
   >
     <i class="bx bx-x" v-if="isOpen" />
     <i class="bx bx-menu" v-else />
@@ -29,7 +29,7 @@
           <router-link to="/doctor/all" class="nav__link">DELETE A DOCTOR</router-link>
         </li>
         <li className="nav__item">
-          <button type="button" class="logout-btn" onClick={onOpen}>LOG OUT</button>
+          <button type="button" class="logout-btn" @click="open = !open">LOG OUT</button>
         </li>
       </ul>
       <div class="footer__nav">
@@ -65,17 +65,49 @@
         </p>
       </div>
     </nav>
+    <teleport to="#modals">
+      <LogoutModal v-if="open" @close="onClose" @confirm="onConfirm" />
+    </teleport>
   </div>
 </template>
 
 <script>
   import { ref } from 'vue';
+  import { useStore } from 'vuex';
+  import { useRouter } from 'vue-router';
+  import LogoutModal from '@/components/LogoutModal.vue';
+  import { actionLogout } from '@/redux/auth/action_creators';
   export default {
     name: 'Nav',
+    components: {
+      LogoutModal,
+    },
     setup() {
+      const store = useStore();
+      const router = useRouter();
       const isOpen = ref(false);
+      const open = ref(false);
 
-      return { isOpen };
+      const toggleNav = () => {
+        isOpen.value = !isOpen.value;
+      };
+
+      const onClose = () => {
+        open.value = false;
+      };
+
+      const onConfirm = () => {
+        store.dispatch(actionLogout())
+        .then(() => {
+          open.value = false;
+          router.replace('login');
+        })
+        .catch(() => {
+          console.log('error');
+        });
+      };
+
+      return { isOpen, toggleNav, open, onClose, onConfirm};
     },
   }
 </script>

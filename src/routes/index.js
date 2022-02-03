@@ -1,6 +1,6 @@
 import { createRouter, createWebHistory } from 'vue-router';
 
-import {requiresAuth, requiresDoctors, requiresDoctor} from '../guards/private';
+import {requiresAuth, requiresDoctors, requiresDoctor, requiresAppointment, requiresGuest} from '../guards/private';
 const Login = () => import('../views/Auth/Login.vue');
 const Register = () => import('../views/Auth/Signup.vue');
 const NotFound = () => import('../views/NotFound');
@@ -9,7 +9,7 @@ const RemoveDoctor = () => import('../views/Doctor/All.vue');
 const NewDoctor = () => import('../views/Doctor/New.vue');
 const DoctorIndex = () => import('../views/Doctor/Index.vue');
 const DoctorDetail = () => import('../views/Doctor/Detail.vue');
-
+const AllAppointments = () => import('../views/Booking/All.vue')
 
 const routes = [
   {
@@ -44,17 +44,30 @@ const routes = [
         beforeEnter: requiresDoctor,
         component: DoctorDetail,
       },
+      {
+        path: 'appointment/all',
+        name: 'AllAppointments',
+        component: AllAppointments,
+        beforeEnter: requiresAppointment,
+      },
+      {
+        path: 'appointment/new',
+        name: 'NewBooking',
+        component: () => import('../views/Booking/New.vue'),
+      },
     ],
   },
   {
     path: '/login',
     name: 'Login',
     component: Login,
+    beforeEnter: requiresGuest,
   },
   {
     path: '/register',
     name: 'Signup',
     component: Register,
+    beforeEnter: requiresGuest,
   },
   {
     path: '/:pathMatch(.*)',

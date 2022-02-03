@@ -3,6 +3,7 @@
     <div class="auth__form">
       <form @submit.prevent="onSubmit">
         <h3>Book an appointment</h3>
+        <p class="server-error">{{error}}</p>
         <div class="field">
           <input
             type="text"
@@ -49,6 +50,7 @@ export default {
     return {
       user, onSubmit,
       loading: computed(() => store.getters.loading),
+      error: computed(() => store.getters.error),
     }
   }
 }
