@@ -3,9 +3,7 @@ import { defineStore } from 'pinia';
 const useRootStore = defineStore('root', {
   state: () => ({
     loading: false,
-    error: {
-      message: null,
-    },
+    error: null,
   }),
   getters: {
     isLoading: (state) => state.loading,
