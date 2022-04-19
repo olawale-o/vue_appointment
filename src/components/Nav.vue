@@ -73,17 +73,16 @@
 
 <script>
   import { ref } from 'vue';
-  import { useStore } from 'vuex';
+  import useAuthUsertStore from '@/store/auth';
   import { useRouter } from 'vue-router';
   import LogoutModal from '@/components/LogoutModal.vue';
-  import { actionLogout } from '@/redux/auth/action_creators';
   export default {
     name: 'Nav',
     components: {
       LogoutModal,
     },
     setup() {
-      const store = useStore();
+      const store = useAuthUsertStore();
       const router = useRouter();
       const isOpen = ref(false);
       const open = ref(false);
@@ -97,7 +96,7 @@
       };
 
       const onConfirm = () => {
-        store.dispatch(actionLogout())
+        store.logOut()
         .then(() => {
           open.value = false;
           router.replace('login');
