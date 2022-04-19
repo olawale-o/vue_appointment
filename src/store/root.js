@@ -2,21 +2,25 @@ import { defineStore } from 'pinia';
 
 const useRootStore = defineStore('root', {
   state: () => ({
-    loading: false,
-    error: null,
+    token: null,
   }),
   getters: {
-    isLoading: (state) => state.loading,
-    error: (state) => state.error,
+    currentToken: (state) => state.token,
   },
   actions: {
-    setLoading() {
-      this.loading = !this.loading;
-    },
-    setError(payload) {
-      this.error = payload;
+    setToken(payload) {
+      this.token = payload;
     }
-  }
+  },
+  persist: {
+    enabled: true,
+    strategies: [
+      {
+        key: 'root',
+        storage: localStorage,
+      }
+    ]
+  },
 });
 
 export default useRootStore;
