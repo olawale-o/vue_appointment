@@ -1,16 +1,18 @@
 import { post, get, remove } from '../api';
-import { getStorage, setStorage } from '../scripts/storage';
 import BASE_URI from '../constants/url';
+import useRootStore from '../store/root';
 
 export const loginService = async (credentials) => {
+  const rootStore = useRootStore();
   const response = await post(`${BASE_URI}v1/users/login`, { credentials });
-  setStorage(response.headers.authorization.split(' ')[1], 'token');
+  rootStore.setToken(response.headers.authorization.split(' ')[1]);
   return response.data;
 };
 
 export const registerService = async (credentials) => {
+  const rootStore = useRootStore();
   const response = await post(`${BASE_URI}v1/users`, { credentials });
-  setStorage(response.headers.authorization.split(' ')[1], 'token');
+  rootStore.setToken(response.headers.authorization.split(' ')[1]);
   return response.data;
 };
 
@@ -21,6 +23,7 @@ export const getDoctorsService = async () => {
 
 export const getDoctorService = async (id) => {
   const response = await get(`${BASE_URI}v1/doctors/${id}`);
+  console.log(response);
   return response.data;
 };
 
@@ -50,8 +53,9 @@ export const deleteAppointmentService = async (id) => {
 };
 
 export const logoutService = async () => {
-  const token = getStorage('token');
+  const rootStore = useRootStore();
+  const token = rootStore.currentToken;
   const options = { token };
   await remove(`${BASE_URI}v1/users/logout`, options);
-  setStorage('', 'token');
+  rootStore.$reset();
 };
