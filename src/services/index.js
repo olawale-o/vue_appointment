@@ -23,7 +23,6 @@ export const getDoctorsService = async () => {
 
 export const getDoctorService = async (id) => {
   const response = await get(`${BASE_URI}v1/doctors/${id}`);
-  console.log(response);
   return response.data;
 };
 
