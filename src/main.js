@@ -2,12 +2,13 @@ import { createApp } from 'vue'
 import './assets/index.css'
 import App from './App.vue'
 import router from './routes';
-import store from './redux';
+import pinia from './store';
 import api from './api';
-import { getStorage } from './scripts/storage';
+import useRootStore from './store/root';
 
 api.interceptors.request.use((config) =>{
-  const token = getStorage('token');
+  const rootStore = useRootStore();
+  const token = rootStore.currentToken;
   if (token) {
     config.headers['Authorization'] = `Bearer ${token}`;
   }
@@ -22,5 +23,5 @@ api.interceptors.response.use(function(response) {
 
 const app = createApp(App);
 app.use(router);
-app.use(store);
+app.use(pinia)
 app.mount('#app');
