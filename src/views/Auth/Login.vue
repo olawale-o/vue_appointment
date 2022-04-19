@@ -33,27 +33,29 @@
 </template>
 
 <script>
-import { reactive, computed } from 'vue';
-import { useStore } from 'vuex';
+import { reactive } from 'vue';
+import { storeToRefs } from 'pinia';
+import useAuthUsertStore from '@/store/auth';
 import { useRouter } from 'vue-router';
-import { actionLogin} from '../../redux/auth/action_creators';
 export default {
   name: 'Login',
   setup() {
     const router = useRouter();
     const user = reactive({email: '', password: '',});
-    const store = useStore();
+    const authStore = useAuthUsertStore();
+    const { loading, error } = storeToRefs(useAuthUsertStore());
     const onSubmit = () => {
-      store.dispatch(actionLogin({user,}, router.push));
+      authStore.login({user}, router.push);
     };
 
     return {
-      user, onSubmit,
-      loading: computed(() => store.getters.loading),
-      error: computed(() => store.getters.error),
+      user,
+      onSubmit,
+      loading,
+      error,
     }
   }
 }
 </script>
 
-<style scoped src="../../assets/styles/Auth.css"></style>
+<style scoped src="@/assets/styles/Auth.css"></style>
