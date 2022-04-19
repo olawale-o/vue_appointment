@@ -1,11 +1,12 @@
-import store from '../redux';
-import { actionDoctors, actionDoctorSingle } from '../redux/doctor/action_creators';
-import { actionAppointments } from '../redux/appointment/action_creators';
-import { reset } from '../redux/root';
-const CURRENT_USER = 'auth/currentUser';
+import useAuthUserStore from '@/store/auth';
+// import useRootStore from '../store/root';
+import useDoctorStore from '@/store/doctor';
+// import { actionDoctors, actionDoctorSingle } from '../redux/doctor/action_creators';
+// import { actionAppointments } from '../redux/appointment/action_creators';
 
 export const requiresAuth = (to, from, next) => {
-  const currentUser = store.getters[CURRENT_USER];
+  const store = useAuthUserStore();
+  const currentUser = store.currentUser;
   if (!currentUser) {
     next({
       path: '/login',
@@ -17,24 +18,33 @@ export const requiresAuth = (to, from, next) => {
 };
 
 export const requiresGuest = (to, from, next) => {
-  store.dispatch(reset());
-  next();
+  const store = useAuthUserStore();
+  const currentUser = store.currentUser;
+  if (currentUser) {
+    next({
+      path: '/',
+    });
+  } else {
+    next();
+  }
 };
 
 export const requiresDoctors = (to, from, next) => {
-  store.dispatch(actionDoctors());
+  const store = useDoctorStore();
+  store.fetchDoctors();
   next();
 };
 
 export const requiresDoctor = (to, from, next) => {
-  store.dispatch(actionDoctorSingle(to.params.id))
-    .then(doctor => {
-      to.params.doctor = doctor;
-      next();
-    });
+  next();
+  // store.dispatch(actionDoctorSingle(to.params.id))
+  //   .then(doctor => {
+  //     to.params.doctor = doctor;
+  //     next();
+  //   });
 };
 
 export const requiresAppointment = (to, from, next) => {
-  store.dispatch(actionAppointments());
+  // store.dispatch(actionAppointments());
   next();
 };
