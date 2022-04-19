@@ -35,15 +35,15 @@
 <script>
 import { reactive } from 'vue';
 import { storeToRefs } from 'pinia';
-import useAuthUsertStore from '@/store/auth';
+import useAuthUserStore from '@/store/auth';
 import { useRouter } from 'vue-router';
 export default {
   name: 'Login',
   setup() {
     const router = useRouter();
     const user = reactive({email: '', password: '',});
-    const authStore = useAuthUsertStore();
-    const { loading, error } = storeToRefs(useAuthUsertStore());
+    const authStore = useAuthUserStore();
+    const { loading, error } = storeToRefs(useAuthUserStore());
     const onSubmit = () => {
       authStore.login({user}, router.push);
     };
