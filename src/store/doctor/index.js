@@ -85,7 +85,7 @@ const useDoctorStore = defineStore('doctor', {
     },
 
     addNewDoctor(payload) {
-      this.doctors.concat(payload);
+      this.doctors.push(payload);
     },
 
     deleteDoc(payload){
