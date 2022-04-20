@@ -58,21 +58,23 @@
 </template>
 
 <script>
-  import { computed, ref, reactive } from 'vue';
-  import { useStore } from 'vuex';
+  import { ref } from 'vue';
+  import { storeToRefs } from 'pinia';
+  import { useReactive } from '@/composables/useReactive';
+  import useDoctorStore from '@/store/doctor';
   import { useRouter } from 'vue-router';
-  import { actionDoctorAdd } from '@/redux/doctor/action_creators';
   export default {
     name: 'NewDoctor',
     setup() {
       const picture = ref(null);
-      const doctor = reactive({
+      const doctor = useReactive({
         fullname: '',
         city: 'Abuja',
         specialty: '',
         description: '',
       });
-      const store = useStore();
+      const { addDoctor } = useDoctorStore();
+      const { loading } = storeToRefs(useDoctorStore());
       const router = useRouter();
       const onSubmit = () => {
         const formData = new FormData();
@@ -80,13 +82,13 @@
         formData.append('doctor[city]', doctor.city);
         formData.append('doctor[specialty]', doctor.specialty);
         formData.append('doctor[picture]', picture.value);
-        store.dispatch(actionDoctorAdd(formData, router.push));
+        addDoctor(formData, router.push);
       };
       const onFileUpload = (e) => {
         picture.value = e.target.files[0];
       };
       return { 
-        loading: computed(() => store.getters.loading),
+        loading,
         onSubmit, picture, onFileUpload, doctor,
       };
     },

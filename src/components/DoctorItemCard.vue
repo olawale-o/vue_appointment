@@ -31,10 +31,10 @@
 </template>
 
 <script>
-  import { computed } from 'vue';
-  import { useStore } from 'vuex';
+  import { storeToRefs } from 'pinia';
+  import useDoctorStore from '@/store/doctor';
+  import useAuthUserStore from '@/store/auth';
   import BASE_URI from '@/constants/url';
-  import { actionDoctorDelete } from '@/redux/doctor/action_creators';
   export default {
     name: 'DoctorItemCard',
     props: {
@@ -44,13 +44,14 @@
       },
     },
     setup() {
-      const store = useStore();
+      const { removeDoctor } = useDoctorStore();
+      const { currentUser } = storeToRefs(useAuthUserStore());
       const onDeleteDoctor = (id) => {
-        store.dispatch(actionDoctorDelete(id));
+        removeDoctor(id);
       };
       return {
         BASE_URI, onDeleteDoctor,
-        currentUser: computed(() => store.getters['auth/currentUser']),
+        currentUser,
       };
     },
   }
