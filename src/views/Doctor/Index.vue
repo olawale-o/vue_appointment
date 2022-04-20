@@ -13,8 +13,8 @@
 </template>
 
 <script>
-  import { computed } from 'vue';
-  import { useStore } from 'vuex';
+  import { storeToRefs } from 'pinia';
+  import useDoctorStore from '@/store/doctor';
   import CarouselSlider from '@/components/CarouselSlider';
   export default {
     name: 'DoctorIndex',
@@ -22,10 +22,10 @@
       CarouselSlider,
     },
     setup() {
-      const store = useStore();
+      const { doctors, loading } = storeToRefs(useDoctorStore());
       return {
-        doctors: computed(() => store.getters['doctor/doctors']),
-        loading: computed(() => store.getters.loading),
+        doctors,
+        loading,
       }
     },
   }

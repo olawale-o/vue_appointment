@@ -1,25 +1,71 @@
 import { defineStore } from 'pinia';
-import { onLogin, onRegister } from './async_action';
+import { loginService, registerService, logoutService } from '@/services';
 
 const useAuthUserStore = defineStore('auth/user',  {
   state: () => ({
-    user: {},
+    user: null,
+    loading: false,
+    error: null,
   }),
   getters: {
     currentUser: (state) => state.user,
   },
   actions: {
+    updateUser(payload) {
+      this.user = { ...this.user, ...payload };
+    },
+
     async login(credentials, cb) {
-      await onLogin(credentials, cb, this.updateUser);
+      try {
+        this.loading = !this.loading;
+        const response = await loginService(credentials);
+        this.updateUser(response);
+        cb('/');
+      } catch (error) {
+        this.error = error.response.data.error;
+      } finally {
+        this.loading = !this.loading;
+      }
     },
 
     async register(credentials, cb) {
-      await onRegister(credentials, cb, this.updateUser);
+      this.loading = !this.loading;
+      try {
+        const response = await registerService(credentials);
+        this.updateUser(response);
+        cb('/');
+      } catch (error) {
+        this.error = error.response.data.error;
+      } finally {
+        this.loading = !this.loading;
+      }
     },
 
-    updateUser(payload) {
-      this.user = { ...this.user, ...payload }
-    }
+    async logOut() {
+      this.loading = !this.loading;
+      try {
+        return logoutService()
+        .then(() => {
+          this.$reset();
+        }).catch((error) => {
+          this.error = error.message;
+        });
+      } catch(e) {
+        this.error = e.message;
+      } finally {
+        this.loading = !this.loading;
+      }
+
+    },
+  },
+  persist: {
+    enabled: true,
+    strategies: [
+      {
+        key: 'auth',
+        storage: localStorage,
+      }
+    ]
   },
 });
 

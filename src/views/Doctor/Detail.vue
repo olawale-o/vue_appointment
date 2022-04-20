@@ -4,17 +4,17 @@
     <div class="details__container" v-else>
       <router-link to="/" class="back__btn"><i class="bx bx-arrow-back" /></router-link>
       <div class="large__picture">
-        <img :src="`${BASE_URI}${doc.picture}`" alt="doc" />
+        <img :src="`${BASE_URI}${currentDoctor.picture}`" alt="doc" />
       </div>
       <div class="details__info">
-        <h2 class="detail__info-name">{{`Dr. ${doc.fullname}`}}</h2>
+        <h2 class="detail__info-name">{{`Dr. ${currentDoctor.fullname}`}}</h2>
         <div class="specialty__div">
           <p class="speciality__banner">Specialty</p>
-          <h6 class="specialty__title">{{doc.specialty}}</h6>
+          <h6 class="specialty__title">{{currentDoctor.specialty}}</h6>
         </div>
         <div class="city__div">
           <p class="city__banner">City</p>
-          <h6 class="city__title">[{doc.city}]</h6>
+          <h6 class="city__title">{{currentDoctor.city}}</h6>
         </div>
         <div class="fee__container">
           <span class="fee">$10</span>
@@ -37,8 +37,8 @@
 
 <script>
   import BASE_URI from '@/constants/url';
-  import { computed } from 'vue';
-  import { useStore } from 'vuex';
+  import { storeToRefs } from 'pinia';
+  import useDoctorStore from '@/store/doctor';
   export default {
     name: 'docDetail',
     props: {
@@ -48,12 +48,11 @@
       }
     },
     setup() {
-      const store = useStore();
-      
+      const { loading, currentDoctor } = storeToRefs(useDoctorStore());
       return {
         BASE_URI,
-        loading: computed(() => store.getters.loading),
-        doc: computed(() => store.getters['doctor/doctor']),
+        loading,
+        currentDoctor
       };
     },
   }

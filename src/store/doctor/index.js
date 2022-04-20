@@ -1,36 +1,79 @@
 import { defineStore } from "pinia";
-import { all, add, deleteDoctor, singleDoctor } from './async_action';
+import {
+  getDoctorsService,
+  addDoctorService,
+  deleteDoctorService,
+  getDoctorService,
+} from "@/services";
 
 const useDoctorStore = defineStore('doctor', {
   state: () => ({
     doctor: null,
-    doctors: [], 
+    doctors: [],
+    loading: false,
+    error: null,
   }),
   getters: {
     allDoctors: (state) => state.doctors,
-    doctor: (state) => state.doctors,
-    getDoctorById: (state) => (id) => state.doctors.find(doctor => doctor.id === id), 
+    currentDoctor: (state) => state.doctor,
+    getDoctorById: (state) => (id) => state.doctors.find((doctor) => doctor.id === id),
   },
   actions: {
     async fetchDoctors() {
-      await all(this.updateDoctors)
+      this.loading = !this.loading;
+      try {
+        const { data: { doctors } } = await getDoctorsService();
+        this.updateDoctors(doctors);
+      } catch(e) {
+        this.error = e.message;
+      } finally {
+        this.loading = !this.loading;
+      }
     },
 
     async addDoctor(credentials, cb) {
-      await add(credentials, cb, this.updateDoctor, this.addNewDoctor)
+      this.loading = !this.loading;
+      try {
+        const { data: { doctor } } = await addDoctorService(credentials);
+        this.updateDoctor(doctor)
+        this.addNewDoctor(doctor)
+        cb(`/doctor/${doctor.id}`);
+      } catch (e) {
+        this.error = e.message;
+      } finally {
+        this.loading = !this.loading;
+      }
     },
 
     async delete(credentials){
-      await deleteDoctor(credentials, deleteDoc)
+      this.loading = !this.loading;
+      try {
+        await deleteDoctorService(credentials)
+        this.deleteDoc(credentials);
+      } catch(e) {
+        this.error = e.message;
+      } finally {
+        this.loading = !this.loading;
+      }
     },
 
     async single(credentials) {
-      const doctor = this.getDoctorById(credentials);
+      const doctor = this.doctors.find((doctor) => doctor.id === parseInt(credentials));
       if (doctor) {
         this.doctor = doctor
         return doctor;
       }
-      return singleDoctor(credentials, this.updateDoctor)
+      try {
+        return getDoctorService(credentials)
+        .then(({ data: { doctor } }) => {
+          this.updateDoctor(doctor);
+          return doctor;
+        })
+      } catch(e) {
+        this.error = e.message;
+      } finally {
+        this.loading = !this.loading;
+      }
     },
 
     updateDoctors(payload) {
@@ -52,7 +95,16 @@ const useDoctorStore = defineStore('doctor', {
       }
       this.doctors = doctors.filter(doctor => doctor.id !== payload);
     }
-  }
+  },
+  persist: {
+    enabled: true,
+    strategies: [
+      {
+        key: 'doctor',
+        storage: localStorage,
+      }
+    ]
+  },
 });
 
 export default useDoctorStore;
