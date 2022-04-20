@@ -45,7 +45,7 @@ const useDoctorStore = defineStore('doctor', {
       }
     },
 
-    async delete(credentials){
+    async removeDoctor(credentials){
       this.loading = !this.loading;
       try {
         await deleteDoctorService(credentials)
