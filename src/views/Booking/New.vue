@@ -32,24 +32,28 @@
 </template>
 
 <script>
-  import { reactive, computed } from 'vue';
-  import { useStore } from 'vuex';
-  import { actionAppointmentAdd } from '@/redux/appointment/action_creators';
+  import { storeToRefs } from 'pinia';
+  import { useReactive } from '@/composables/useReactive';
+  import useAppointmentStore from '@/store/appointment';
+  import useDoctorStore from '@/store/doctor';
   export default {
     setup() {
-      const store = useStore();
-      const appointment = reactive({
+      const { addAppointment } = useAppointmentStore();
+      const { loading } = storeToRefs(useAppointmentStore());
+      const { doctors } = storeToRefs(useDoctorStore());
+      const appointment = useReactive({
         book_for: '',
         doctor_id: '',
       });
       const handleSubmit = () => {
-        store.dispatch(actionAppointmentAdd({appointment,}));
+        addAppointment({appointment,});
       };
 
       return {
-        appointment, handleSubmit,
-        doctors: computed(() => store.getters['doctor/doctors']),
-        loading: computed(() => store.getters.loading),
+        appointment,
+        handleSubmit,
+        doctors,
+        loading,
       }
     },
   }

@@ -2,18 +2,18 @@
   <div class="appointments">
     <div class="table__container">
       <div class="loading__indicator" v-if="loading" />
-      <template v-if="bookings.length > 0">
+      <template v-if="appointments.length > 0">
         <h1 class="heading1">My Appointments</h1>
-        <AppointmentList :appointments="bookings" />
+        <AppointmentList :appointments="appointments" />
       </template>
-      <div v-if="bookings.length === 0" class="empty">No appointments yet</div>
+      <div v-if="appointments.length === 0" class="empty">No appointments yet</div>
     </div>
   </div>
 </template>
 
 <script>
-  import { computed } from 'vue';
-  import { useStore } from 'vuex';
+  import { storeToRefs } from 'pinia';
+  import useAppointmentStore from '@/store/appointment';
   import AppointmentList from '@/components/AppointmentList.vue';
   export default {
     name: 'AllAppointments',
@@ -21,10 +21,10 @@
       AppointmentList,
     },
     setup() {
-      const store = useStore();
+      const { loading, appointments } = storeToRefs(useAppointmentStore());
       return {
-        bookings: computed(() => store.getters['appointment/appointments']),
-        loading: computed(() => store.getters.loading),
+        appointments,
+        loading,
       }
     },
   }
