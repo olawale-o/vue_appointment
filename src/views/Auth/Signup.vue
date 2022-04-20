@@ -77,4 +77,4 @@
   }
 </script>
 
-<style scoped src="../../assets/styles/Auth.css"></style>
+<style scoped src="@/assets/styles/Auth.css"></style>
