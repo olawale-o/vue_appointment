@@ -33,29 +33,29 @@
 </template>
 
 <script>
-import { reactive } from 'vue';
-import { storeToRefs } from 'pinia';
-import useAuthUserStore from '@/store/auth';
-import { useRouter } from 'vue-router';
-export default {
-  name: 'Login',
-  setup() {
-    const router = useRouter();
-    const user = reactive({email: '', password: '',});
-    const { login } = useAuthUserStore();
-    const { loading, error } = storeToRefs(useAuthUserStore());
-    const onSubmit = () => {
-      login({user}, router.push);
-    };
+  import { useUser } from '@/composables/useUser';
+  import { storeToRefs } from 'pinia';
+  import useAuthUserStore from '@/store/auth';
+  import { useRouter } from 'vue-router';
+  export default {
+    name: 'Login',
+    setup() {
+      const router = useRouter();
+      const user = useUser({email: '', password: '',});
+      const { login } = useAuthUserStore();
+      const { loading, error } = storeToRefs(useAuthUserStore());
+      const onSubmit = () => {
+        login({user}, router.push);
+      };
 
-    return {
-      user,
-      onSubmit,
-      loading,
-      error,
+      return {
+        user,
+        onSubmit,
+        loading,
+        error,
+      }
     }
   }
-}
 </script>
 
 <style scoped src="@/assets/styles/Auth.css"></style>

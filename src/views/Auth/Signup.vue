@@ -53,27 +53,28 @@
 </template>
 
 <script>
-import { reactive, computed } from 'vue';
-import { useStore } from 'vuex';
-import { useRouter } from 'vue-router';
-import { actionRegister } from '../../redux/auth/action_creators';
-export default {
-  name: 'Signup',
-  setup() {
-    const router = useRouter();
-    const user = reactive({name: '', email: '', password: '', password_confirmation: '',});
-    const store = useStore();
-    const onSubmit = () => {
-      store.dispatch(actionRegister({user,}, router.push));
-    };
-
-    return {
-      user, onSubmit,
-      loading: computed(() => store.getters.loading),
-      error: computed(() => store.getters.error),
+  import { useUser } from '@/composables/useUser';
+  import { storeToRefs } from 'pinia';
+  import useAuthUserStore from '@/store/auth';
+  import { useRouter } from 'vue-router';
+  export default {
+    name: 'Signup',
+    setup() {
+      const router = useRouter();
+      const user = useUser({name: '', email: '', password: '', password_confirmation: '',});
+      const { register } = useAuthUserStore();
+      const { loading, error } = storeToRefs(useAuthUserStore());
+      const onSubmit = () => {
+        register({user}, router.push);
+      };
+      return {
+        user,
+        onSubmit,
+        loading,
+        error,
+      }
     }
   }
-}
 </script>
 
 <style scoped src="../../assets/styles/Auth.css"></style>
