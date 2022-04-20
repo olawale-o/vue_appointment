@@ -42,10 +42,10 @@ export default {
   setup() {
     const router = useRouter();
     const user = reactive({email: '', password: '',});
-    const authStore = useAuthUserStore();
+    const { login } = useAuthUserStore();
     const { loading, error } = storeToRefs(useAuthUserStore());
     const onSubmit = () => {
-      authStore.login({user}, router.push);
+      login({user}, router.push);
     };
 
     return {
