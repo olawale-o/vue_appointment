@@ -53,7 +53,7 @@
 </template>
 
 <script>
-  import { useUser } from '@/composables/useUser';
+  import { useReactive } from '@/composables/useReactive';
   import { storeToRefs } from 'pinia';
   import useAuthUserStore from '@/store/auth';
   import { useRouter } from 'vue-router';
@@ -61,7 +61,7 @@
     name: 'Signup',
     setup() {
       const router = useRouter();
-      const user = useUser({name: '', email: '', password: '', password_confirmation: '',});
+      const user = useReactive({name: '', email: '', password: '', password_confirmation: '',});
       const { register } = useAuthUserStore();
       const { loading, error } = storeToRefs(useAuthUserStore());
       const onSubmit = () => {
