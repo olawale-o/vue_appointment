@@ -44,7 +44,7 @@ const useAppointmentStore = defineStore({
       }
     },
 
-    async delete(credentials){
+    async removeAppointment(credentials){
       this.loading = !this.loading;
       try {
         await deleteAppointmentService(credentials)
