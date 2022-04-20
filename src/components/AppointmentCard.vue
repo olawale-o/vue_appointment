@@ -34,9 +34,8 @@
 </template>
 
 <script>
-  import { useStore } from 'vuex';
+  import useAppointmentStore from '@/store/appointment';
   import BASE_URI from '@/constants/url';
-  import { actionAppointmentDelete } from '@/redux/appointment/action_creators';
   export default {
     props: {
       appointment: {
@@ -46,9 +45,9 @@
     },
     name: 'AppointmentCard',
     setup() {
-      const store = useStore();
+      const { removeAppointment } = useAppointmentStore();
       const cancelAppointment = (id) => {
-        store.dispatch(actionAppointmentDelete(id));
+        removeAppointment(id);
       };
       return { BASE_URI, cancelAppointment };
     },
