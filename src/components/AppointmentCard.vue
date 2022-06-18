@@ -2,19 +2,19 @@
   <div class="table__row">
     <div class="info">
       <img
-        :src="`${BASE_URI}${appointment.picture}`"
+        :src="`${BASE_URI}${appointment.doctor.picture}`"
         class="avatar"
         alt="appointment"
       />
-      <span class="fs-3">{{appointment.fullname}}</span>
+      <span class="fs-3">{{appointment.doctor.fullname}}</span>
     </div>
     <div class="city">
       <span class="fs-3 bold xs">City: </span>
-      <span class="fs-3">{{appointment.city}}</span>
+      <span class="fs-3">{{appointment.doctor.city}}</span>
     </div>
     <div class="specialty">
       <span class="fs-3 bold xs">Specialty: </span>
-      <span class="fs-3">{{appointment.specialty}}</span>
+      <span class="fs-3">{{appointment.doctor.specialty}}</span>
     </div>
     <div class="date">
       <span class="fs-3 bold xs">Appointment Date: </span>
