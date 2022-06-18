@@ -8,10 +8,15 @@
               v-model="appointment.doctor_id"
               required
             >
-              <option>Select a doctor</option>
-                <option v-for="doctor in doctors" :value="doctor.id" :key="doctor.id">
-                    {{ doctor.fullname }}
-                </option>
+              <option value="">Choose a doctor...</option>
+              <option
+                v-for="doctor in doctors"
+                :key="doctor.id"
+                :value="doctor.id"
+                :selected="Number(doctor.id) == Number(appointment.doctor_id)"
+              >
+                {{ doctor.fullname }}
+              </option>
             </select>
           </div>
           <div class="field">
@@ -40,13 +45,16 @@
     setup() {
       const { addAppointment } = useAppointmentStore();
       const { loading } = storeToRefs(useAppointmentStore());
-      const { doctors } = storeToRefs(useDoctorStore());
-      const appointment = useReactive({
+      const { doctors, bookDoctorId } = storeToRefs(useDoctorStore());
+      let appointment = useReactive({
         book_for: '',
-        doctor_id: '',
+        doctor_id: bookDoctorId.value,
       });
       const handleSubmit = () => {
-        addAppointment({appointment,});
+        const { book_for, doctor_id } = appointment;
+        addAppointment({appointment: { book_for, doctor_id },});
+        appointment.book_for = '';
+        appointment.doctor_id = '';
       };
 
       return {
