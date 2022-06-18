@@ -1,9 +1,10 @@
-import { defineStore } from "pinia";
+import { defineStore } from 'pinia';
 import {
   getAppointmentsService,
   createAppointmentService,
   deleteAppointmentService,
 } from "@/services";
+import useDoctorStore from '../doctor';
 
 const useAppointmentStore = defineStore({
   id: 'appointment',
@@ -32,11 +33,13 @@ const useAppointmentStore = defineStore({
     },
 
     async addAppointment(credentials) {
+      const doctorStore = useDoctorStore();
       this.loading = !this.loading;
       try {
         const { data: { appointment } } = await createAppointmentService(credentials);
         this.updateAppointment(appointment);
         this.addNewAppointment(appointment);
+        doctorStore.onDoctorToBook('');
       } catch (e) {
         this.error = e.message;
       } finally {
