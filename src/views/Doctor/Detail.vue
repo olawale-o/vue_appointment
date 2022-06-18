@@ -28,7 +28,11 @@
           </p>
         </div>
         <div class="btn__container">
-          <router-link to="/appointment" class="btn btn__large">Book an appointment</router-link>
+          <Button
+            :text="'Book an appointment'"
+            @call-back="onCallBack"
+          />
+          <!-- <router-link to="/appointment" class="btn btn__large">Book an appointment</router-link> -->
         </div>
       </div>
     </div>
@@ -36,11 +40,16 @@
 </template>
 
 <script>
+  import { useRouter } from 'vue-router';
   import BASE_URI from '@/constants/url';
   import { storeToRefs } from 'pinia';
   import useDoctorStore from '@/store/doctor';
+  import Button from '@/components/Button.vue';
   export default {
     name: 'docDetail',
+    components: {
+      Button,
+    },
     props: {
       doctor: {
         type: Object,
@@ -48,11 +57,17 @@
       }
     },
     setup() {
+      const router = useRouter();
+      const doctorStore = useDoctorStore();
       const { loading, currentDoctor } = storeToRefs(useDoctorStore());
       return {
         BASE_URI,
         loading,
-        currentDoctor
+        currentDoctor,
+        onCallBack: () => {
+          router.push('/appointment/new');
+          doctorStore.onDoctorToBook(currentDoctor.value.id);
+        }
       };
     },
   }
