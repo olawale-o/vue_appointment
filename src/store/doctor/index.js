@@ -12,6 +12,7 @@ const useDoctorStore = defineStore('doctor', {
     doctors: [],
     loading: false,
     error: null,
+    bookDoctorId: '',
   }),
   getters: {
     allDoctors: (state) => state.doctors,
@@ -94,6 +95,10 @@ const useDoctorStore = defineStore('doctor', {
         this.doctor = null;
       }
       this.doctors = doctors.filter(doctor => doctor.id !== payload);
+    },
+
+    onDoctorToBook(payload){
+      this.bookDoctorId = payload;
     }
   },
   persist: {
