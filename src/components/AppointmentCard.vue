@@ -18,7 +18,7 @@
     </div>
     <div class="date">
       <span class="fs-3 bold xs">Appointment Date: </span>
-      <span class="fs-3">Date</span>
+      <span class="fs-3">{{formatDate}}</span>
     </div>
     <span class="fs-6">
       <button
@@ -34,6 +34,7 @@
 </template>
 
 <script>
+  import { computed } from 'vue';
   import useAppointmentStore from '@/store/appointment';
   import BASE_URI from '@/constants/url';
   export default {
@@ -44,12 +45,19 @@
       },
     },
     name: 'AppointmentCard',
-    setup() {
+    setup(props) {
       const { removeAppointment } = useAppointmentStore();
       const cancelAppointment = (id) => {
         removeAppointment(id);
       };
-      return { BASE_URI, cancelAppointment };
+      return {
+        BASE_URI,
+        cancelAppointment,
+        formatDate: computed(() => {
+          const date = new Date(props.appointment.appointment_date);
+          return `${date.getFullYear()}/${date.getMonth()}/${date.getDate()}`
+        }),
+      };
     },
   }
 </script>
