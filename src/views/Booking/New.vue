@@ -19,16 +19,21 @@
               </option>
             </select>
           </div>
-          <div class="field">
+          <!-- <div class="field">
             <input
               type="datetime-local"
               class="input"
               v-model="appointment.book_for"
               required
             />
-          </div>
+          </div> -->
+          <TimeCalendar
+            :fullDate="calendarDate"
+            @update-date="updateDate"
+            @set-date="setDate"
+          />
           <div class="actions">
-            <div class="form__submission-indicator" v-if="loading"/>
+            <div class="form__submission-indicator" v-if="loading" />
             <input type="submit" value="Book" class="btn addBtn" aria-label="Book" v-else />}
           </div>
         </form>
@@ -37,12 +42,18 @@
 </template>
 
 <script>
+  import TimeCalendar from '@/components/shared/TimeCalendar';
+  import { ref } from 'vue';
   import { storeToRefs } from 'pinia';
   import { useReactive } from '@/composables/useReactive';
   import useAppointmentStore from '@/store/appointment';
   import useDoctorStore from '@/store/doctor';
   export default {
+    components: {
+      TimeCalendar,
+    },
     setup() {
+      const calendarDate = ref(new Date());
       const { addAppointment } = useAppointmentStore();
       const { loading } = storeToRefs(useAppointmentStore());
       const { doctors, bookDoctorId } = storeToRefs(useDoctorStore());
@@ -62,6 +73,20 @@
         handleSubmit,
         doctors,
         loading,
+        calendarDate,
+        updateDate: (direction) => {
+          const newDate = new Date(calendarDate.value);
+          if (direction === 'next') {
+            newDate.setMonth(calendarDate.value.getMonth() + 1);
+          } else {
+            newDate.setMonth(calendarDate.value.getMonth() - 1);
+          }
+          calendarDate.value = newDate;
+        },
+        setDate: (selectedDate) => {
+          console.log(selectedDate)
+          appointment.book_for = selectedDate;
+        },
       }
     },
   }
