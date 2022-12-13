@@ -29,7 +29,7 @@
           </div>
           <div class="actions">
             <div class="form__submission-indicator" v-if="loading"/>
-            <input type="submit" value="Book" class="btn addBtn" v-else />}
+            <input type="submit" value="Book" class="btn addBtn" aria-label="Book" v-else />}
           </div>
         </form>
       </div>
